@@ -1,0 +1,4 @@
+(executable
+ (public_name chesiyo)
+ (name main)
+ (libraries chesiyo unix))
