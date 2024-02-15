@@ -22,13 +22,11 @@ let () =
   
   let rec command_line_loop = (fun () ->
     let c = input_char stdin in
-    match c with
-    | '\n' -> ()
-    | c -> (
-      let b = Bytes.of_string (Printf.sprintf "%c" c) in
-      ignore (Unix.write Unix.stdout b 0 (Bytes.length b));
-      Unix.fsync Unix.stdout;
-      command_line_loop ()
-    )
-  ) in command_line_loop ();
-  output_char stdout '\n'
+    let b = match c with
+    | '\n' -> Bytes.of_string "\n> "
+    | c -> Bytes.of_string (Printf.sprintf "%c" c)
+    in
+    ignore (Unix.write Unix.stdout b 0 (Bytes.length b));
+    Unix.fsync Unix.stdout;
+    command_line_loop ()    
+  ) in command_line_loop ()
